@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+          <item android:id="@+id/timerset"
+          android:icon="@drawable/ic_action_time"
+          android:title="@string/timer"
+          android:showAsAction="always"/>
+          <item android:id="@+id/convert"
+          android:icon="@drawable/ic_action_repeat"
+          android:title="@string/timer"
+          android:showAsAction="always"/>
+</menu>

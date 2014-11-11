@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/drawer_recipe"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	
+	    <SeekBar
+	        android:id="@+id/seekpath"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true" />
+
+	    <android.support.v4.view.ViewPager
+	        android:id="@+id/recipepager"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_above="@+id/seekpath"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true" >
+	        
+	    </android.support.v4.view.ViewPager>
+	</RelativeLayout>
+	    <RelativeLayout android:id="@+id/right_drawer_timer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+		
+        android:background="#66333333"
+        >
+	    
+	    <!--         android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" -->
+        
+    <TextView
+        android:id="@+id/drawertimertext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="타이머" />
+
+    <EditText
+        android:id="@+id/timeset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/drawertimertext"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="time" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/minute"
+        android:layout_alignBottom="@+id/minute"
+        android:layout_toRightOf="@+id/minute"
+        android:text=":"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/:"
+        android:layout_alignBottom="@+id/:"
+        android:layout_toRightOf="@+id/:"
+        android:text="SS"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/minute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/timeset"
+        android:layout_below="@+id/timeset"
+        android:layout_marginTop="26dp"
+        android:text="MM"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+</RelativeLayout>
+	    <RelativeLayout android:id="@+id/right_drawer_conv"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+		
+        android:background="#66333333"
+        >
+	    
+	    <!--         android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" -->
+            <TextView
+        android:id="@+id/drawertext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="단위변환" />
+
+    <Spinner
+        android:id="@+id/convlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/drawertext"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/origvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/convlist"
+        android:ems="10"
+        android:inputType="numberDecimal" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/convvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/origvalue"
+        android:layout_marginTop="25dp"
+        android:text="conv value"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>
