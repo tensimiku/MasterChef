@@ -4,27 +4,33 @@
 	    android:id="@+id/drawer_recipe"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent">
-	<RelativeLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" >
-	
-	    <SeekBar
-	        android:id="@+id/seekpath"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true" />
+	    
 
-	    <android.support.v4.view.ViewPager
-	        android:id="@+id/recipepager"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_above="@+id/seekpath"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentTop="true" >
-	        
-	    </android.support.v4.view.ViewPager>
-	</RelativeLayout>
+    
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recipepager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/seekBar1" >
+
+    </android.support.v4.view.ViewPager>
+
+<SeekBar
+    android:id="@+id/seekBar1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true" />
+
+</RelativeLayout>
+
+
 	    <RelativeLayout android:id="@+id/right_drawer_timer"
         android:layout_width="240dp"
         android:layout_height="match_parent"

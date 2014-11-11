@@ -36,6 +36,7 @@ public class ShowList extends FragmentActivity implements ActionBar.TabListener 
         	actionBar.addTab(actionBar.newTab().setText(s)
                     .setTabListener(this));
         }
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
         	 
             @Override

@@ -3,11 +3,15 @@ package com.tsmk.cooktimer;
 import java.util.ArrayList;
 
 import cookmanager.io.RecipeLoader;
+import cookmanager.recipe.Page;
 import cookmanager.recipe.Recipe;
 import cookmanager.recipe.RecipeCategory;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -16,12 +20,13 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-public class ShowRecipe extends Activity {
-	private ViewPager rPager;
+public class ShowRecipe extends FragmentActivity {
 	android.app.ActionBar actionbar;
     private String[] mPlanetTitles;
     private DrawerLayout mDrawerLayout;
-    private RelativeLayout mDrawerRelative;
+    private RelativeLayout mDrawerTimerRelative;
+    private RelativeLayout mDrawerConvRelative;
+
     
 	
 	@Override
@@ -36,19 +41,29 @@ public class ShowRecipe extends Activity {
 		RecipeLoader rl = new RecipeLoader(this);
 		
 		ArrayList<Recipe> list = rl.getRecipeArrayList(RecipeCategory.getCategory(selrc), false);
+		Recipe recipe = list.get(sel);
+		Page[] page = recipe.getPageArray();
+		ArrayList<Fragment> af = new ArrayList<Fragment>();
+		for(int i=0;i<page.length;i++){
+			af.add(new PageFragment(page[i]));
+		}
+		
+		ViewPager rPager = (ViewPager)findViewById(R.id.recipepager);
+		rPager.setAdapter(new CstmPageAdapter(getSupportFragmentManager(),af));
+		rPager.setPageTransformer(true, new DepthPageTransformer());
 		
 		actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
-		actionbar.setTitle(list.get(sel).getRecipeName());
+		actionbar.setTitle(recipe.getRecipeName());
 		
-		rPager = (ViewPager)findViewById(R.id.recipepager);
-		rPager.setAdapter(new CstmPageAdapter());
+
+
+
 		mPlanetTitles = new String[]{"여기에 단위변환기가 오면 참 좋겠네요.","네. 단위변환기요."};
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_recipe);
-        mDrawerRelative = (RelativeLayout) findViewById(R.id.right_drawer_timer);
-        Drawable background = mDrawerRelative.getBackground();
-        background.setAlpha(255);
+        mDrawerTimerRelative = (RelativeLayout) findViewById(R.id.right_drawer_timer);
+        mDrawerConvRelative = (RelativeLayout) findViewById(R.id.right_drawer_conv);
         // Set the adapter for the list view
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_timer_res, R.id.drawertext, mPlanetTitles));
         // Set the list's click listener
@@ -71,23 +86,28 @@ public class ShowRecipe extends Activity {
 		if(id==R.id.timerset){
 			//timer on here
 	        // Set the adapter for the list view
-	        if(mDrawerLayout.isDrawerOpen(mDrawerRelative)){
-				mDrawerLayout.closeDrawer(mDrawerRelative);
+	        if(mDrawerLayout.isDrawerOpen(mDrawerTimerRelative)){
+				mDrawerLayout.closeDrawer(mDrawerTimerRelative);
 	        }
 	        else{
-	        	mDrawerRelative = (RelativeLayout) findViewById(R.id.right_drawer_timer);
-				mDrawerLayout.openDrawer(mDrawerRelative);
+				mDrawerLayout.openDrawer(mDrawerTimerRelative);
 	        }
+	        if(mDrawerLayout.isDrawerOpen(mDrawerConvRelative)){
+				mDrawerLayout.closeDrawer(mDrawerConvRelative);
+	        }
+
 		}
 		if(id==R.id.convert){
 			//convert on here
 	        // Set the adapter for the list view
-	        if(mDrawerLayout.isDrawerOpen(mDrawerRelative)){
-				mDrawerLayout.closeDrawer(mDrawerRelative);
+	        if(mDrawerLayout.isDrawerOpen(mDrawerConvRelative)){
+				mDrawerLayout.closeDrawer(mDrawerConvRelative);
 	        }
 	        else{
-	        mDrawerRelative = (RelativeLayout) findViewById(R.id.right_drawer_conv);
-			mDrawerLayout.openDrawer(mDrawerRelative);
+				mDrawerLayout.openDrawer(mDrawerConvRelative);
+	        }
+	        if(mDrawerLayout.isDrawerOpen(mDrawerTimerRelative)){
+				mDrawerLayout.closeDrawer(mDrawerTimerRelative);
 	        }
 		}
 
