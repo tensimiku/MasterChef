@@ -97,11 +97,11 @@ final class PageReaderContract
 		String selection = RecipeEntry._ID + " = " + String.valueOf(recipe.getRecipeId());
 		Cursor c = query(RecipeEntry.TABLE_NAME, selection);
 		
-		if(c.moveToFirst() && overwrite) // Á¸ÀçÇÏ¸é
+		if(c.moveToFirst() && overwrite) // ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½
 		{
 			delete(RecipeEntry.TABLE_NAME, selection);
 		}
-		/* ·¹½ÃÇÇ »ý¼º */
+		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 		ContentValues values = new ContentValues();
     	values.put(RecipeEntry.COLUMN_NAME_CATEGORY,recipe.getCategory().toInteger());
     	values.put(RecipeEntry.COLUMN_NAME_RECIPENAME, recipe.getRecipeName());
@@ -109,7 +109,7 @@ final class PageReaderContract
     	long recipeId = db.insert(RecipeEntry.TABLE_NAME, "null", values);
     	
 		
-		/* ÆäÀÌÁö Ãß°¡ */		
+		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ */		
 		Page[] pageArray = recipe.getPageArray();
 		for(int pIdx=0; pIdx<pageArray.length; pIdx++)
 		{

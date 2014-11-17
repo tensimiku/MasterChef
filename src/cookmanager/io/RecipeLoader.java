@@ -169,5 +169,22 @@ public final class RecipeLoader
 			
 			return recipeArrList.toArray(new Recipe[0]);
 		}
+	}	
+	public ArrayList<Recipe> getRecipeArrayList(RecipeCategory category, String searchName, boolean noPage)
+	{ 
+		if(searchName == null)
+			return getRecipeArrayList(category, noPage);
+		else
+		{
+			Recipe[] recipeArray = getRecipeArray(category, noPage);
+			ArrayList<Recipe> recipeArrList = new ArrayList<Recipe>();
+			
+			for(int i=0; i<recipeArray.length; i++){
+				if(recipeArray[i].getPage(0).getText().contains(searchName))
+					recipeArrList.add(recipeArray[0]);
+			}
+			
+			return recipeArrList;
+		}
 	}
 }

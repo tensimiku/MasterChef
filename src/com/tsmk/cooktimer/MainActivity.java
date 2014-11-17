@@ -1,17 +1,24 @@
 package com.tsmk.cooktimer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import cookmanager.io.RecipeSaver;
 import cookmanager.recipe.Page;
 import cookmanager.recipe.Recipe;
 import cookmanager.recipe.RecipeCategory;
 
 public class MainActivity extends Activity {
-	static final int RequestCode = 139;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,19 +54,41 @@ public class MainActivity extends Activity {
     	recipe = new Recipe("feelsolow"+i, pageList, RecipeCategory.LOW,totalid++);
     	rs.saveRecipe(recipe);
     	}
-		Intent i = new Intent(this,ShowList.class);
-		startActivityForResult(i, RequestCode);
-	}
-	
-	
-    @Override
-    protected void onActivityResult(int requestCode,
-                                     int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RequestCode){
+    	//Write TestCode
+    	/*
+		try {
+	    	InputStream myInput = new FileInputStream("/data/data/com.tsmk.cooktimer/databases/PageReader.db");
 
-        	}
-        
-        finish();
-        }
+	    	File directory = new File(Environment.getExternalStorageDirectory()+"/testdb");
+	    	if (!directory.exists()) {
+	    	    directory.mkdirs();
+	    	}
+
+	    	OutputStream myOutput;
+			myOutput = new FileOutputStream(directory.getPath() + "/db.backup");
+	    	byte[] buffer = new byte[1024];
+	    	int length;
+	    	while ((length = myInput.read(buffer)) > 0) {
+	    	    myOutput.write(buffer, 0, length);
+	    	}
+
+	    	myOutput.flush();
+	    	myOutput.close();
+	    	myInput.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+    	*/
+    	
+		Intent i = new Intent(this,ShowList.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(i);
+	}
 }

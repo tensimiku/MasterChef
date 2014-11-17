@@ -36,12 +36,10 @@ public class ShowRecipe extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Bundle selrecipe = getIntent().getExtras();
 		int sel = selrecipe.getInt("selected");
-		int selrc = selrecipe.getInt("category");
 		
 		RecipeLoader rl = new RecipeLoader(this);
 		
-		ArrayList<Recipe> list = rl.getRecipeArrayList(RecipeCategory.getCategory(selrc), false);
-		Recipe recipe = list.get(sel);
+		Recipe recipe = rl.getRecipe(sel);
 		Page[] page = recipe.getPageArray();
 		ArrayList<Fragment> af = new ArrayList<Fragment>();
 		for(int i=0;i<page.length;i++){
