@@ -1084,7 +1084,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int _=0x7f060042;
-        public static final int LinearLayout1=0x7f060050;
+        public static final int LinearLayout1=0x7f060051;
         public static final int RelativeLayout1=0x7f06004d;
         public static final int action_bar=0x7f06001c;
         public static final int action_bar_activity_content=0x7f060015;
@@ -1102,7 +1102,7 @@ containing a value of this type.
         public static final int beginning=0x7f060011;
         public static final int checkbox=0x7f06002d;
         public static final int collapseActionView=0x7f06000d;
-        public static final int convert=0x7f060056;
+        public static final int convert=0x7f060057;
         public static final int convlist=0x7f060047;
         public static final int convvalue=0x7f060049;
         public static final int default_activity_button=0x7f060028;
@@ -1116,6 +1116,7 @@ containing a value of this type.
         public static final int end=0x7f060013;
         public static final int expand_activities_button=0x7f060026;
         public static final int expanded_menu=0x7f06002c;
+        public static final int foodlev=0x7f060050;
         public static final int foodlist=0x7f06004c;
         public static final int foodname=0x7f06004f;
         public static final int foodstep=0x7f06004e;
@@ -1127,7 +1128,7 @@ containing a value of this type.
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
         public static final int listpager=0x7f06004b;
-        public static final int listsearch=0x7f060054;
+        public static final int listsearch=0x7f060055;
         public static final int middle=0x7f060012;
         public static final int minute=0x7f060043;
         public static final int never=0x7f060009;
@@ -1137,9 +1138,9 @@ containing a value of this type.
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
-        public static final int recipeimage=0x7f060051;
+        public static final int recipeimage=0x7f060052;
         public static final int recipepager=0x7f06003d;
-        public static final int recipetext=0x7f060052;
+        public static final int recipetext=0x7f060053;
         public static final int right_drawer_conv=0x7f060045;
         public static final int right_drawer_timer=0x7f06003f;
         public static final int search_badge=0x7f060032;
@@ -1152,7 +1153,7 @@ containing a value of this type.
         public static final int search_plate=0x7f060036;
         public static final int search_src_text=0x7f060037;
         public static final int search_voice_btn=0x7f06003b;
-        public static final int searchlist=0x7f060053;
+        public static final int searchlist=0x7f060054;
         public static final int second=0x7f060044;
         public static final int seekBar1=0x7f06003e;
         public static final int shortcut=0x7f06002e;
@@ -1163,7 +1164,7 @@ containing a value of this type.
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
         public static final int timerlayout=0x7f06004a;
-        public static final int timerset=0x7f060055;
+        public static final int timerset=0x7f060056;
         public static final int timeset=0x7f060041;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
@@ -1279,6 +1280,9 @@ containing a value of this type.
         public static final int action_settings=0x7f0b000f;
         public static final int app_name=0x7f0b000d;
         public static final int hello_world=0x7f0b000e;
+        public static final int high=0x7f0b0013;
+        public static final int low=0x7f0b0015;
+        public static final int middle=0x7f0b0014;
         public static final int search=0x7f0b0010;
         public static final int search_hint=0x7f0b0012;
         public static final int timer=0x7f0b0011;

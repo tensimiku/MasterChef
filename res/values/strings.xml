@@ -7,5 +7,9 @@
     <string name="search">검색</string>
     <string name="timer">타이머</string>
    	<string name="search_hint">요리 검색</string>
+   	<string name="high">상</string>
+   	<string name="middle">중</string>
+   	<string name="low">하</string>
+   	   	
  
 </resources>

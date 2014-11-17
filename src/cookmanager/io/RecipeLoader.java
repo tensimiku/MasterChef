@@ -113,6 +113,7 @@ public final class RecipeLoader
 		
 		return recipeList;
 	}
+	
 	public Recipe[] getRecipeArray(RecipeCategory category, boolean noPage)
 	{
 		if(category == null) return null;
@@ -163,13 +164,14 @@ public final class RecipeLoader
 			ArrayList<Recipe> recipeArrList = new ArrayList<Recipe>();
 			
 			for(int i=0; i<recipeArray.length; i++){
-				if(recipeArray[i].getPage(0).getText().contains(searchName))
-					recipeArrList.add(recipeArray[0]);
+				if(recipeArray[i].getRecipeName().contains(searchName) || recipeArray[i].getPage(0).getText().contains(searchName))
+					recipeArrList.add(recipeArray[i]);
 			}
 			
 			return recipeArrList.toArray(new Recipe[0]);
 		}
 	}	
+
 	public ArrayList<Recipe> getRecipeArrayList(RecipeCategory category, String searchName, boolean noPage)
 	{ 
 		if(searchName == null)
@@ -180,8 +182,8 @@ public final class RecipeLoader
 			ArrayList<Recipe> recipeArrList = new ArrayList<Recipe>();
 			
 			for(int i=0; i<recipeArray.length; i++){
-				if(recipeArray[i].getPage(0).getText().contains(searchName))
-					recipeArrList.add(recipeArray[0]);
+				if(recipeArray[i].getRecipeName().contains(searchName) ||recipeArray[i].getPage(0).getText().contains(searchName))
+					recipeArrList.add(recipeArray[i]);
 			}
 			
 			return recipeArrList;

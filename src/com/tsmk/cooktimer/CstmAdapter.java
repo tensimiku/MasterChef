@@ -37,6 +37,8 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
             holder = new ViewHolder();
             holder.textView1 = (TextView)row.findViewById(R.id.foodname);
             holder.textView2 = (TextView)row.findViewById(R.id.foodstep);
+            holder.textView3 = (TextView)row.findViewById(R.id.foodlev);
+
 
             row.setTag(holder);
         }
@@ -49,6 +51,20 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
 
     	holder.textView1.setText(recipeshow.getRecipeName());
     	holder.textView2.setText("총 단계:"+Integer.toString(recipeshow.getPageArray().length));
+    	switch(recipeshow.getCategory()){
+		case HIGH:
+	    	holder.textView3.setText(R.string.high);
+			break;
+		case LOW:
+	    	holder.textView3.setText(R.string.low);
+			break;
+		case MIDDLE:
+	    	holder.textView3.setText(R.string.middle);
+			break;
+		default:
+			break;
+    	
+    	}
         return row;
     }
 
@@ -56,5 +72,6 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
     {
         TextView textView1;
         TextView textView2;
+        TextView textView3;
     }
 }
