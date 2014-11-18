@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/timerlayout"
-    android:layout_width="match_parent"
+    android:id="@+id/right_drawer_timer"
+    android:layout_width="240dp"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
+    android:layout_gravity="end"
+    android:background="#66333333"
+    >
+	    
+	    <!--         android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" -->
+        
     <TextView
         android:id="@+id/drawertimertext"
         android:layout_width="wrap_content"
@@ -26,34 +32,24 @@
         <requestFocus />
     </EditText>
 
-    <TextView
-        android:id="@+id/:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/minute"
-        android:layout_alignBottom="@+id/minute"
-        android:layout_toRightOf="@+id/minute"
-        android:text=":"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/timevalue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/timeset"
+            android:layout_below="@+id/timeset"
+            android:layout_marginTop="36dp"
+            android:text="hh:mm:ss"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/:"
-        android:layout_alignBottom="@+id/:"
-        android:layout_toRightOf="@+id/:"
-        android:text="SS"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/minute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/timeset"
-        android:layout_below="@+id/timeset"
-        android:layout_marginTop="26dp"
-        android:text="MM"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <Button
+            android:id="@+id/setbutton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/timevalue"
+            android:layout_alignBottom="@+id/timevalue"
+            android:layout_alignRight="@+id/timeset"
+            android:text="@+string/start" />
 
 </RelativeLayout>

@@ -10,7 +10,9 @@ import android.view.View;
 public class CstmPageAdapter extends FragmentPagerAdapter {
 
 	
+	
 	ArrayList<Fragment> FragmentList;
+	
 	
 	public CstmPageAdapter(FragmentManager fm,ArrayList<Fragment> af) {
 		super(fm);
