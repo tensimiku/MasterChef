@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/right_drawer_timer"
-    android:layout_width="240dp"
-    android:layout_height="match_parent"
-    android:layout_gravity="end"
-    android:background="#66333333"
-    >
-	    
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
 	    <!--         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" -->
         
-    <TextView
+        <TextView
         android:id="@+id/drawertimertext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="타이머" />
-
+        
     <EditText
         android:id="@+id/timeset"
         android:layout_width="wrap_content"
@@ -51,5 +44,4 @@
             android:layout_alignBottom="@+id/timevalue"
             android:layout_alignRight="@+id/timeset"
             android:text="@+string/start" />
-
-</RelativeLayout>
+        </merge>

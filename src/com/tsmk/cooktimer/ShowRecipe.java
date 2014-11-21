@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -44,24 +46,36 @@ import cookmanager.recipe.Recipe;
 
 public class ShowRecipe extends FragmentActivity {
 	private static boolean isTimerRun = false;
+	private boolean isOpening = false;
 	private android.app.ActionBar actionbar;
     private DrawerLayout mDrawerLayout;
-    private RelativeLayout mDrawerTimerRelative;
-    private RelativeLayout mDrawerConvRelative;
+    private RelativeLayout mDrawerRelative;
     private ViewPager rPager;
     private CstmPageAdapter adapter;
-    private EditText timeinput;
-    private TextView timevalue;
+
     private Page[] page;
-    private Button timerbtn;
     private SeekBar seekrecipe;
     private SimpleDateFormat hhmmss = new SimpleDateFormat("HH:mm:ss");
     private SimpleDateFormat mmss = new SimpleDateFormat("mm:ss");
     private SimpleDateFormat ss = new SimpleDateFormat("ss");
 
+    private EditText timeinput;
+    private TextView timevalue;
+    private TextView drawertimertext;
+    private Button timerbtn;
+    
+    private TextView drawertext;
+    private Spinner convlist;
+    private EditText origvalue;
+    private TextView convvalue;
+
+    
     private static TimerAsync async;
     private NotificationCompat.Builder mBuilder;
     private NotificationManager mNotificationManager;
+    
+    
+    
     private class TimerAsync extends AsyncTask<Calendar, Integer, Void>{
     	
     	@Override
@@ -161,12 +175,11 @@ public class ShowRecipe extends FragmentActivity {
 		
 		rPager = (ViewPager)findViewById(R.id.recipepager);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_recipe);
-		timeinput = (EditText)findViewById(R.id.timeset);
-		timerbtn = (Button)findViewById(R.id.setbutton);
-		timevalue = (TextView)findViewById(R.id.timevalue);
+		
+		initDrawerViewRes();
+		
 		seekrecipe = (SeekBar)findViewById(R.id.seekpage);
-        mDrawerTimerRelative = (RelativeLayout) findViewById(R.id.right_drawer_timer);
-        mDrawerConvRelative = (RelativeLayout) findViewById(R.id.right_drawer_conv);
+        mDrawerRelative = (RelativeLayout) findViewById(R.id.right_drawer);
 		actionbar = getActionBar();
 		adapter = new CstmPageAdapter(getSupportFragmentManager(),af);
 		rPager.setAdapter(adapter);
@@ -297,6 +310,8 @@ public class ShowRecipe extends FragmentActivity {
 				}
 			}
 		});
+
+		mDrawerLayout.setScrimColor(Color.parseColor("#00FFFFFF"));
 		mDrawerLayout.setDrawerListener(new DrawerListener() {
 			
 			@Override
@@ -315,6 +330,7 @@ public class ShowRecipe extends FragmentActivity {
 			public void onDrawerOpened(View arg0) {
 				// TODO Auto-generated method stub
 				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
 			}
 			
 			@Override
@@ -324,7 +340,6 @@ public class ShowRecipe extends FragmentActivity {
 
 			}
 		});
-		mDrawerLayout.setScrimColor(Color.parseColor("#00FFFFFF"));
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		rPager.setCurrentItem(currentpage);
 
@@ -333,6 +348,44 @@ public class ShowRecipe extends FragmentActivity {
         // Set the list's click listener
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
+	
+	void initDrawerViewRes(){
+		timeinput = (EditText)findViewById(R.id.timeset);
+		timerbtn = (Button)findViewById(R.id.setbutton);
+		timevalue = (TextView)findViewById(R.id.timevalue);
+		drawertimertext = (TextView)findViewById(R.id.drawertimertext);
+		
+		drawertext = (TextView)findViewById(R.id.drawertext);
+	    convlist = (Spinner)findViewById(R.id.convlist);
+	    origvalue = (EditText)findViewById(R.id.origvalue);
+	    convvalue = (TextView)findViewById(R.id.convvalue);
+	}
+	void hideTimer(){
+		timeinput.setVisibility(View.INVISIBLE);
+		timerbtn.setVisibility(View.INVISIBLE);
+		timevalue.setVisibility(View.INVISIBLE);
+		drawertimertext.setVisibility(View.INVISIBLE);
+	}
+	void hideConv(){
+		drawertext.setVisibility(View.INVISIBLE);
+		convlist.setVisibility(View.INVISIBLE);
+		origvalue.setVisibility(View.INVISIBLE);
+		convvalue.setVisibility(View.INVISIBLE);
+	}
+	void showTimer(){
+		timeinput.setVisibility(View.VISIBLE);
+		timerbtn.setVisibility(View.VISIBLE);
+		timevalue.setVisibility(View.VISIBLE);
+		drawertimertext.setVisibility(View.VISIBLE);
+	}
+	void showConv(){
+		drawertext.setVisibility(View.VISIBLE);
+		convlist.setVisibility(View.VISIBLE);
+		origvalue.setVisibility(View.VISIBLE);
+		convvalue.setVisibility(View.VISIBLE);
+	}
+	
+	
 	
 	@Override
 	public void onBackPressed() {
@@ -393,30 +446,47 @@ public class ShowRecipe extends FragmentActivity {
 		if(id==R.id.timer){
 			//timer on here
 	        // Set the adapter for the list view
-	        if(mDrawerLayout.isDrawerOpen(mDrawerTimerRelative)){
-				mDrawerLayout.closeDrawer(mDrawerTimerRelative);
+	        if(mDrawerLayout.isDrawerOpen(mDrawerRelative)){
+				mDrawerLayout.closeDrawer(mDrawerRelative);
 	        }
-	        else{
-				mDrawerLayout.openDrawer(mDrawerTimerRelative);
+	        else if(!isOpening){
+        		isOpening = true;
+        		hideConv();
+        		showTimer();
+        		mDrawerLayout.openDrawer(mDrawerRelative);
+        		new Handler().postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+		        		isOpening = false;
+					}
+				}, 1250);
+	        }
 
-	        }
-	        if(mDrawerLayout.isDrawerOpen(mDrawerConvRelative)){
-				mDrawerLayout.closeDrawer(mDrawerConvRelative);
-	        }
 
 		}
 		if(id==R.id.convert){
 			//convert on here
 	        // Set the adapter for the list view
-	        if(mDrawerLayout.isDrawerOpen(mDrawerConvRelative)){
-				mDrawerLayout.closeDrawer(mDrawerConvRelative);
+	        if(mDrawerLayout.isDrawerOpen(mDrawerRelative)){
+				mDrawerLayout.closeDrawer(mDrawerRelative);
 	        }
-	        else{
-				mDrawerLayout.openDrawer(mDrawerConvRelative);
+	        else if(!isOpening){
+        		isOpening = true;
+        		hideTimer();
+        		showConv();
+        		mDrawerLayout.openDrawer(mDrawerRelative);
+        		new Handler().postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+		        		isOpening = false;
+					}
+				}, 1250);
 	        }
-	        if(mDrawerLayout.isDrawerOpen(mDrawerTimerRelative)){
-				mDrawerLayout.closeDrawer(mDrawerTimerRelative);
-	        }
+
 		}
 
 		return super.onOptionsItemSelected(item);
