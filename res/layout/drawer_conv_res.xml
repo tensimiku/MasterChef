@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
         <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-        
-	    
+
 	    <!--         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" -->
@@ -25,23 +24,21 @@
         android:id="@+id/origvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/convlist"
+        android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="numberDecimal" >
-
-        <requestFocus />
-    </EditText>
+        android:inputType="numberDecimal" />
 
     <TextView
         android:id="@+id/convvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/origvalue"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@+id/drawertext"
         android:text="conv value"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    
    </merge>
    
         
