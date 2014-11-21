@@ -38,6 +38,8 @@ public class RecipeList_tab2 extends Fragment {
 					int selrcp = ra.get(arg2).getRecipeId();
 					Intent i = new Intent(getActivity(), ShowRecipe.class);
 					i.putExtra("selected", selrcp);
+					i.putExtra("currentpage", 0);
+
 					startActivity(i);
 					
 					//Toast.makeText(getApplicationContext(),MainActivity.foodlist.get(arg2).getname(), Toast.LENGTH_SHORT).show();

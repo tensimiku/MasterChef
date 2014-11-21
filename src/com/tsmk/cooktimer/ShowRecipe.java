@@ -6,15 +6,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,25 +57,49 @@ public class ShowRecipe extends FragmentActivity {
     private SeekBar seekrecipe;
     private SimpleDateFormat hhmmss = new SimpleDateFormat("HH:mm:ss");
     private SimpleDateFormat mmss = new SimpleDateFormat("mm:ss");
-    private static TimerAsync async;
-    
-    private class TimerAsync extends AsyncTask<Calendar, Integer, Void>{
+    private SimpleDateFormat ss = new SimpleDateFormat("ss");
 
+    private static TimerAsync async;
+    private NotificationCompat.Builder mBuilder;
+    private NotificationManager mNotificationManager;
+    private class TimerAsync extends AsyncTask<Calendar, Integer, Void>{
+    	
+    	@Override
+    	protected void onPreExecute() {
+    		// TODO Auto-generated method stub
+    		super.onPreExecute();
+    		isTimerRun = true;
+    		actionbar.setDisplayHomeAsUpEnabled(false);
+    		mBuilder.setOngoing(true);
+    	}
+    	
+    	@Override
+    	protected void onCancelled() {
+    		// TODO Auto-generated method stub
+    		super.onCancelled();
+    		mBuilder.setProgress(0, 0, false).setContentText("취소됨");
+    		mBuilder.setOngoing(false);
+    		mNotificationManager.notify(NOTYID, mBuilder.build());
+    		actionbar.setDisplayHomeAsUpEnabled(true);
+
+    	}
+    	
     	@Override
     	protected Void doInBackground(Calendar... params) {
     		// TODO Auto-generated method stub
-    		isTimerRun = true;
+
     		Calendar timerval = params[0];
     		Calendar c = timerval;
     		long calc = SystemClock.elapsedRealtime();
     		long cl = (c.get(Calendar.HOUR_OF_DAY)*3600+c.get(Calendar.MINUTE)*60+c.get(Calendar.SECOND))*1000;
     		long tl = calc + cl;
+    		int percentage = (int)cl;
     		while(calc<tl){
     			if(isCancelled()) {
     	    		isTimerRun = false;
     				break;
     			}
-    			publishProgress((int)((tl-calc)/1000));
+    			publishProgress((int)((tl-calc)),percentage);
     			calc = SystemClock.elapsedRealtime();
     			try {
 					Thread.sleep(333);
@@ -79,16 +110,19 @@ public class ShowRecipe extends FragmentActivity {
     		}
     		
     		//do something
-    		isTimerRun = false;
     		return null;
     	}
     	@Override
     	protected void onProgressUpdate(Integer... progress) {
-    		int ipg = progress[0];
+    		int ipg = progress[0]/1000;
+    		int pct = progress[1];
     		int hour = ipg/3600;
     		int min = (ipg%3600)/60;
     		int second = ipg%60;    	
     		String s = String.format("%02d:%02d:%02d",hour,min,second);
+    		mBuilder.setProgress(pct, pct-progress[0], false);
+    		mBuilder.setContentText(s);
+    		mNotificationManager.notify(NOTYID, mBuilder.build());
     		timevalue.setText(s);
     		
     	}
@@ -97,11 +131,16 @@ public class ShowRecipe extends FragmentActivity {
     	protected void onPostExecute(Void result) {
     		// TODO Auto-generated method stub
     		super.onPostExecute(result);
+    		isTimerRun = false;
+    		mBuilder.setProgress(0, 0, false).setContentText("끝");
+    		mBuilder.setOngoing(false);
+    		mNotificationManager.notify(NOTYID, mBuilder.build());
 			timerbtn.setText(R.string.start);
+    		actionbar.setDisplayHomeAsUpEnabled(true);
     	}
     }
+    private final int NOTYID = 3939;
     
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,6 +148,7 @@ public class ShowRecipe extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Bundle selrecipe = getIntent().getExtras();
 		int sel = selrecipe.getInt("selected");
+		int currentpage = selrecipe.getInt("currentpage");
 		
 		RecipeLoader rl = new RecipeLoader(this);
 		
@@ -131,6 +171,38 @@ public class ShowRecipe extends FragmentActivity {
 		adapter = new CstmPageAdapter(getSupportFragmentManager(),af);
 		rPager.setAdapter(adapter);
 		rPager.setPageTransformer(true, new DepthPageTransformer());
+		mNotificationManager =
+			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mBuilder =
+		        new NotificationCompat.Builder(this)
+		        .setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle("요리 타이머")
+		        .setContentText("타이머 돌아가는 중")
+		        .setAutoCancel(true);
+		// Creates an explicit intent for an Activity in your app
+		
+		
+		Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+		resultIntent.setAction(Intent.ACTION_MAIN);
+		resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		
+		
+		//Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
+		
+		//resultIntent.addFlags(Intent.FLAG)
+		//TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		// Adds the back stack for the Intent (but not the Intent itself)
+		//stackBuilder.addParentStack(ShowRecipe.class);
+		// Adds the Intent that starts the Activity to the top of the stack
+		//stackBuilder.addNextIntent(resultIntent);
+		/* PendingIntent resultPendingIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );*/
+		PendingIntent resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		mBuilder.setContentIntent(resultPendingIntent);
+
 		
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(recipe.getRecipeName());
@@ -199,7 +271,13 @@ public class ShowRecipe extends FragmentActivity {
 						d = mmss.parse(input);
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						try {
+							d = ss.parse(input);
+						} catch (ParseException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						
 					}
 				}
 				if(!isTimerRun&&(d != null)){
@@ -208,21 +286,86 @@ public class ShowRecipe extends FragmentActivity {
 					async = new TimerAsync();
 					async.execute(c);
 					timerbtn.setText(R.string.stop);
+						// mId allows you to update the notification later on.
+						mNotificationManager.notify(NOTYID, mBuilder.build());
 				}
 				else{
-					async.cancel(true);
+					if(isTimerRun){
+						async.cancel(true);
+					}
 					timerbtn.setText(R.string.start);
 				}
 			}
 		});
+		mDrawerLayout.setDrawerListener(new DrawerListener() {
+			
+			@Override
+			public void onDrawerStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onDrawerSlide(View arg0, float arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onDrawerOpened(View arg0) {
+				// TODO Auto-generated method stub
+				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+			}
+			
+			@Override
+			public void onDrawerClosed(View arg0) {
+				// TODO Auto-generated method stub
+				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+			}
+		});
 		mDrawerLayout.setScrimColor(Color.parseColor("#00FFFFFF"));
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
+		rPager.setCurrentItem(currentpage);
 
         // Set the adapter for the list view
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_timer_res, R.id.drawertext, mPlanetTitles));
         // Set the list's click listener
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if(isTimerRun){
+			
+		}
+		else{
+			super.onBackPressed();
+		}
+		
+	};
+	
+	@Override
+	protected void onDestroy() {
+		if(isTimerRun){
+			
+		}
+		else{
+			super.onDestroy();
+		}
+	};
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mNotificationManager.cancel(NOTYID);
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
 	}
 	
 	private void setInputText(){
