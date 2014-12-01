@@ -16,6 +16,9 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int androidcolors=0x7f0d0000;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -858,10 +861,26 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f070002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f080003;
+        public static final int abc_search_url_text_holo=0x7f080013;
         public static final int abc_search_url_text_normal=0x7f080000;
         public static final int abc_search_url_text_pressed=0x7f080002;
         public static final int abc_search_url_text_selected=0x7f080001;
+        public static final int actionbar_backgroundcolor=0x7f080003;
+        public static final int actionbar_tab_backgroundcolor=0x7f080004;
+        public static final int actionbar_text=0x7f080012;
+        public static final int blue=0x7f080006;
+        public static final int darkblue=0x7f08000b;
+        public static final int darkgreen=0x7f08000d;
+        public static final int darkorange=0x7f08000e;
+        public static final int darkpurple=0x7f08000c;
+        public static final int darkred=0x7f08000f;
+        public static final int green=0x7f080008;
+        public static final int orange=0x7f080009;
+        public static final int purple=0x7f080007;
+        public static final int red=0x7f08000a;
+        public static final int tab_highlight=0x7f080011;
+        public static final int transparent=0x7f080010;
+        public static final int white=0x7f080005;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1077,10 +1096,13 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int ic_action_repeat=0x7f020057;
-        public static final int ic_action_search=0x7f020058;
-        public static final int ic_action_time=0x7f020059;
-        public static final int ic_launcher=0x7f02005a;
+        public static final int actionbar_tab_background=0x7f020057;
+        public static final int ic_action_repeat=0x7f020058;
+        public static final int ic_action_search=0x7f020059;
+        public static final int ic_action_time=0x7f02005a;
+        public static final int ic_launcher=0x7f02005b;
+        public static final int tab_pressed_selected=0x7f02005c;
+        public static final int tab_selected=0x7f02005d;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f06004e;
@@ -1232,8 +1254,8 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f030022;
     }
     public static final class menu {
-        public static final int main=0x7f0d0000;
-        public static final int recipemenu=0x7f0d0001;
+        public static final int main=0x7f0e0000;
+        public static final int recipemenu=0x7f0e0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1313,9 +1335,14 @@ containing a value of this type.
          */
         public static final int AppBaseTheme=0x7f0c008b;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0c008c;
+        public static final int MyActionBar=0x7f0c008d;
+        /**  The textColor property is backward compatible with the Support Library 
+         */
+        public static final int MyActionBarTabText=0x7f0c0090;
+        public static final int MyActionBarTabs=0x7f0c008e;
+        public static final int MyActionBarTitleText=0x7f0c008f;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0c0063;

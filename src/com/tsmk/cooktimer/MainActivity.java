@@ -87,7 +87,6 @@ public class MainActivity extends Activity {
     	*/
     	
 		Intent i = new Intent(this,ShowList.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);
 		finish();
 	}
