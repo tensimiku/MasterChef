@@ -35,6 +35,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import cookmanager.io.RecipeLoader;
 import cookmanager.recipe.Page;
 import cookmanager.recipe.Recipe;
@@ -48,9 +49,9 @@ public class ShowRecipe extends FragmentActivity {
 	
 	
 	private boolean isOpening = false;
+	private boolean checkOnce = false;
 	
-	
-	private android.app.ActionBar actionbar;
+	private static android.app.ActionBar actionbar;
     private DrawerLayout mDrawerLayout;
     private RelativeLayout mDrawerRelative;
     private ViewPager rPager;
@@ -333,8 +334,8 @@ public class ShowRecipe extends FragmentActivity {
 				else{
 					if(isTimerRun){
 						async.cancel(true);
+						timerbtn.setText(R.string.start);
 					}
-					timerbtn.setText(R.string.start);
 				}
 			}
 		});
@@ -457,13 +458,29 @@ public class ShowRecipe extends FragmentActivity {
 	
 	@Override
 	public void onBackPressed() {
-		if(isTimerRun){
-			
+		if(mDrawerLayout.isDrawerOpen(mDrawerRelative)){
+			mDrawerLayout.closeDrawer(mDrawerRelative);
+		} else{
+			if(isTimerRun){
+				if(checkOnce){
+					async.cancel(true);
+				}else{
+					Toast.makeText(getApplicationContext(), "한번 더 누르시면 타이머가 취소됩니다.", Toast.LENGTH_SHORT).show();
+				}
+				checkOnce = true;
+				new Handler().postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						checkOnce=false;
+					}
+				}, 2500);
+			}
+			else{
+				super.onBackPressed();
+			}
 		}
-		else{
-			super.onBackPressed();
-		}
-		
 	};
 	
 	@Override
