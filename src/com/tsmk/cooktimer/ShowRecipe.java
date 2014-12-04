@@ -63,7 +63,7 @@ public class ShowRecipe extends FragmentActivity {
     private SimpleDateFormat ss = new SimpleDateFormat("ss");
 
     private EditText timeinput;
-    private TextView timevalue;
+    private static TextView timevalue;
     private TextView drawertimertext;
     private Button timerbtn;
     
@@ -356,15 +356,8 @@ public class ShowRecipe extends FragmentActivity {
 			}
 		});
 		
-		if(isConvShow){
-			showConv();
-			hideTimer();
-		}
-		if(isTimerShow){
-			showTimer();
-			hideConv();
-		}
-
+		checkonCreate();
+		
 		mDrawerLayout.setScrimColor(Color.parseColor("#00FFFFFF"));
 		mDrawerLayout.setDrawerListener(new DrawerListener() {
 			
@@ -401,6 +394,20 @@ public class ShowRecipe extends FragmentActivity {
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_timer_res, R.id.drawertext, mPlanetTitles));
         // Set the list's click listener
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
+	
+	void checkonCreate(){
+		if(isConvShow){
+			showConv();
+			hideTimer();
+		}
+		if(isTimerShow){
+			showTimer();
+			hideConv();
+		}
+		if(isTimerRun){
+    		actionbar.setDisplayHomeAsUpEnabled(false);
+		}
 	}
 	
 	void initDrawerViewRes(){
@@ -461,14 +468,9 @@ public class ShowRecipe extends FragmentActivity {
 	
 	@Override
 	protected void onDestroy() {
-		if(isTimerRun){
-			
-		}
-		else{
-			super.onDestroy();
-		}
-	};
-	
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
