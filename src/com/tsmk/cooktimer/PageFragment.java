@@ -14,29 +14,27 @@ import android.widget.TextView;
 import cookmanager.recipe.Page;
 
 public class PageFragment extends Fragment {
-	Page page;
 	
-	public PageFragment(Page p) {
-		// TODO Auto-generated constructor stub
+	public PageFragment(){
 		super();
-		this.page = p;
 	}
 	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.page_layout, container, false);
-			ImageView iv= (ImageView)rootView.findViewById(R.id.recipeimage);
-			TextView tv = (TextView)rootView.findViewById(R.id.recipetext);
-			Uri path = Uri.parse(page.getPictureAddress());
-			File fp = new File(path.toString());
-			if(fp.exists()){
-				iv.setImageURI(path);
-			}
-			if(page.getText()!=null){
-				tv.setText(page.getText());
-			}
+		Page page = getArguments().getParcelable("page");
+		View rootView = inflater.inflate(R.layout.page_layout, container, false);
+		ImageView iv= (ImageView)rootView.findViewById(R.id.recipeimage);
+		TextView tv = (TextView)rootView.findViewById(R.id.recipetext);
+		Uri path = Uri.parse(page.getPictureAddress());
+		File fp = new File(path.toString());
+		if(fp.exists()){
+			iv.setImageURI(path);
+		}
+		if(page.getText()!=null){
+			tv.setText(page.getText());
+		}
 
-			return rootView;
+		return rootView;
 	}
 }

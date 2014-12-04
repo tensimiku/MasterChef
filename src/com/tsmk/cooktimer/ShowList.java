@@ -7,7 +7,6 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,7 +15,6 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class ShowList extends FragmentActivity implements ActionBar.TabListener {
 	
@@ -24,12 +22,12 @@ public class ShowList extends FragmentActivity implements ActionBar.TabListener 
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     private String[] tabs = {"상","중","하"};
-	
+	private static Vector<Fragment> fragvector;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_act);
-		Vector<Fragment> fragvector = new Vector<Fragment>();
+		fragvector = new Vector<Fragment>();
 		fragvector.add(new RecipeList_tab1());
 		fragvector.add(new RecipeList_tab2());
 		fragvector.add(new RecipeList_tab3());
@@ -89,6 +87,9 @@ public class ShowList extends FragmentActivity implements ActionBar.TabListener 
 		// as you specify a parent activity in AndroidManifest.xml.
 
 		int id = item.getItemId();
+		if(id==R.id.listsearch){
+			
+		}
 
 		return super.onOptionsItemSelected(item);
 	}

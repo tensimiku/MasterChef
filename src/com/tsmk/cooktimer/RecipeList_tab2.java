@@ -26,8 +26,6 @@ public class RecipeList_tab2 extends Fragment {
 			
 			RecipeLoader rl = new RecipeLoader(getActivity());
 			ra = rl.getRecipeArrayList(RecipeCategory.MIDDLE, false);
-
-			
 			CstmAdapter adapter = new CstmAdapter(getActivity(), R.layout.listres, ra);
 			lv.setAdapter(adapter);
 			lv.setOnItemClickListener(new OnItemClickListener() {

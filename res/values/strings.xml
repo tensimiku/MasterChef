@@ -13,7 +13,23 @@
    	<string name="low">하</string>
    	<string name="start">시작</string>
    	<string name="stop">정지</string>
-   	   	
-   	   	
- 
+   	<string name="material_prompt">재료를 선택하세요.</string>
+	<string-array name="foodmaterial">
+        <item>버터 (g)</item>
+        <item>쇼트닝 (g)</item>
+        <item>설탕 (g)</item>
+        <item>소맥분 (g)</item>
+        <item>정제소금 (g)</item>
+        <item>보통소금 (g)</item>
+        <item>우유 (g)</item>
+        <item>물 (g)</item>
+        <item>생레몬쥬스 (g)</item>
+        <item>전분 (g)</item>
+        <item>베이킹파우더 (g)</item>
+        <item>소다 (g)</item>
+        <item>젤라틴가루 (g)</item>
+        <item>계란 (개)</item>
+        <item>노른자 (개)</item>
+        <item>흰자 (개)</item>
+    </string-array>
 </resources>

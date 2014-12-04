@@ -32,7 +32,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 3;
+		return vectorlist.size();
 	}
 
 }

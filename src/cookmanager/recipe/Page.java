@@ -1,6 +1,9 @@
 package cookmanager.recipe;
 
-public class Page
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Page implements Parcelable
 {
 	private Picture picture;
 	private String text;
@@ -18,4 +21,16 @@ public class Page
 	public int		getTime() 			{ return timeVal; }
 	
 	public boolean 	isTimer() { return (timeVal>0)? true : false; }
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
+	}
 }

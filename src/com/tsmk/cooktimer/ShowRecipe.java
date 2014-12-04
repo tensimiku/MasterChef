@@ -2,9 +2,9 @@ package com.tsmk.cooktimer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,12 +18,10 @@ import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,9 +32,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 import cookmanager.io.RecipeLoader;
 import cookmanager.recipe.Page;
@@ -68,7 +65,9 @@ public class ShowRecipe extends FragmentActivity {
     private Spinner convlist;
     private EditText origvalue;
     private TextView convvalue;
-
+    private Button convertbtn;
+    
+    private ConvertMaterial convmate;
     
     private static TimerAsync async;
     private NotificationCompat.Builder mBuilder;
@@ -154,23 +153,28 @@ public class ShowRecipe extends FragmentActivity {
     	}
     }
     private final int NOTYID = 3939;
-    
+    private boolean isSeekbarControlled = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cook_act);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        final int smoothscrollbarval = 100;
 		Bundle selrecipe = getIntent().getExtras();
 		int sel = selrecipe.getInt("selected");
 		int currentpage = selrecipe.getInt("currentpage");
-		
+		convmate = new ConvertMaterial(getApplicationContext());
 		RecipeLoader rl = new RecipeLoader(this);
 		
 		Recipe recipe = rl.getRecipe(sel);
 		page = recipe.getPageArray();
-		ArrayList<Fragment> af = new ArrayList<Fragment>();
+		Vector<Fragment> af = new Vector<Fragment>();
 		for(int i=0;i<page.length;i++){
-			af.add(new PageFragment(page[i]));
+			PageFragment pf = new PageFragment();
+			Bundle bd = new Bundle();
+			bd.putParcelable("page", page[i]);
+			pf.setArguments(bd);
+			af.add(pf);
 		}
 		
 		rPager = (ViewPager)findViewById(R.id.recipepager);
@@ -219,31 +223,48 @@ public class ShowRecipe extends FragmentActivity {
 		
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setTitle(recipe.getRecipeName());
-		seekrecipe.setMax(page.length-1);
+		seekrecipe.setMax((page.length-1)*smoothscrollbarval);
 
 		
 		setInputText();
 
 		
 		seekrecipe.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			int maxOffset;
+			int currentOffset;
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				
+				isSeekbarControlled = false;
+				rPager.endFakeDrag();
+				seekrecipe.setProgress(rPager.getCurrentItem()*smoothscrollbarval);
+				currentOffset=0;
 			}
 			
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				
+				isSeekbarControlled = true;
+				maxOffset = rPager.getWidth();
+				rPager.beginFakeDrag();
 			}
 			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				// TODO Auto-generated method stub
-				rPager.setCurrentItem(progress);
+				if(fromUser){
+					int offset = (int)((maxOffset/smoothscrollbarval)*(progress%smoothscrollbarval));
+					int dragby = -1 * (offset - currentOffset);
+					rPager.fakeDragBy(dragby);
+					currentOffset=offset;
+					if(dragby<0){
+						rPager.setCurrentItem(progress/smoothscrollbarval,false);
+					} else{
+						rPager.setCurrentItem((progress+smoothscrollbarval-1)/smoothscrollbarval,false);
+					}
+				}
 			}
 		});
 		
@@ -253,13 +274,14 @@ public class ShowRecipe extends FragmentActivity {
 			public void onPageSelected(int arg0) {
 				// TODO Auto-generated method stub
 				setInputText();
-				seekrecipe.setProgress(arg0);
 			}
 			
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				// TODO Auto-generated method stub
-				
+				if(!isSeekbarControlled){
+					seekrecipe.setProgress((int)((arg0+arg1)*smoothscrollbarval));
+				}
 			}
 			
 			@Override
@@ -307,6 +329,23 @@ public class ShowRecipe extends FragmentActivity {
 						async.cancel(true);
 					}
 					timerbtn.setText(R.string.start);
+				}
+			}
+		});
+		
+		convertbtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				try{
+					convvalue.setText(
+								convmate.convert(String.valueOf(convlist.getSelectedItem()) , 
+								Double.parseDouble(origvalue.getText().toString())
+							)
+						);
+				} catch (NumberFormatException e){
+					convvalue.setText("변환 할수 없는 값입니다.");
 				}
 			}
 		});
@@ -359,6 +398,7 @@ public class ShowRecipe extends FragmentActivity {
 	    convlist = (Spinner)findViewById(R.id.convlist);
 	    origvalue = (EditText)findViewById(R.id.origvalue);
 	    convvalue = (TextView)findViewById(R.id.convvalue);
+	    convertbtn = (Button)findViewById(R.id.convertbtn);
 	}
 	void hideTimer(){
 		timeinput.setVisibility(View.INVISIBLE);
@@ -371,6 +411,7 @@ public class ShowRecipe extends FragmentActivity {
 		convlist.setVisibility(View.INVISIBLE);
 		origvalue.setVisibility(View.INVISIBLE);
 		convvalue.setVisibility(View.INVISIBLE);
+		convertbtn.setVisibility(View.INVISIBLE);
 	}
 	void showTimer(){
 		timeinput.setVisibility(View.VISIBLE);
@@ -383,6 +424,7 @@ public class ShowRecipe extends FragmentActivity {
 		convlist.setVisibility(View.VISIBLE);
 		origvalue.setVisibility(View.VISIBLE);
 		convvalue.setVisibility(View.VISIBLE);
+		convertbtn.setVisibility(View.VISIBLE);
 	}
 	
 	

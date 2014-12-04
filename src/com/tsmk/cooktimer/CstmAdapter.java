@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
  
 
@@ -35,6 +36,7 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
+            holder.imgView1 = (ImageView)row.findViewById(R.id.icon);
             holder.textView1 = (TextView)row.findViewById(R.id.foodname);
             holder.textView2 = (TextView)row.findViewById(R.id.foodstep);
             holder.textView3 = (TextView)row.findViewById(R.id.foodlev);
@@ -48,7 +50,6 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
         }
 
         Recipe recipeshow = data.get(position);
-
     	holder.textView1.setText(recipeshow.getRecipeName());
     	holder.textView2.setText("총 단계:"+Integer.toString(recipeshow.getPageArray().length));
     	switch(recipeshow.getCategory()){
@@ -70,6 +71,7 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
 
     static class ViewHolder
     {
+    	ImageView imgView1;
         TextView textView1;
         TextView textView2;
         TextView textView3;

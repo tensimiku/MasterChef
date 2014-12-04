@@ -1,20 +1,19 @@
 package com.tsmk.cooktimer;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 public class CstmPageAdapter extends FragmentPagerAdapter {
 
 	
 	
-	ArrayList<Fragment> FragmentList;
+	Vector<Fragment> FragmentList;
 	
 	
-	public CstmPageAdapter(FragmentManager fm,ArrayList<Fragment> af) {
+	public CstmPageAdapter(FragmentManager fm,Vector<Fragment> af) {
 		super(fm);
 		this.FragmentList = af;
 		// TODO Auto-generated constructor stub

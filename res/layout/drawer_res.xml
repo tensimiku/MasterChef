@@ -10,10 +10,9 @@
     android:layout_width="240dp"
     android:layout_height="match_parent"
     android:layout_gravity="end"
-    android:background="#66333333">
+    android:background="#99dddddd">
 
-    <include
-        layout="@layout/drawer_conv_res" />
+    <include layout="@layout/drawer_conv_res" />
     
     <include
         layout="@layout/drawer_timer_res" />
