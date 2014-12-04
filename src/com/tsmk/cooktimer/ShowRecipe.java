@@ -43,13 +43,19 @@ import cookmanager.recipe.Recipe;
 
 public class ShowRecipe extends FragmentActivity {
 	private static boolean isTimerRun = false;
+	private static boolean isTimerShow = false;
+	private static boolean isConvShow = false;
+	
+	
 	private boolean isOpening = false;
+	
+	
 	private android.app.ActionBar actionbar;
     private DrawerLayout mDrawerLayout;
     private RelativeLayout mDrawerRelative;
     private ViewPager rPager;
     private CstmPageAdapter adapter;
-
+    
     private Page[] page;
     private SeekBar seekrecipe;
     private SimpleDateFormat hhmmss = new SimpleDateFormat("HH:mm:ss");
@@ -349,6 +355,15 @@ public class ShowRecipe extends FragmentActivity {
 				}
 			}
 		});
+		
+		if(isConvShow){
+			showConv();
+			hideTimer();
+		}
+		if(isTimerShow){
+			showTimer();
+			hideConv();
+		}
 
 		mDrawerLayout.setScrimColor(Color.parseColor("#00FFFFFF"));
 		mDrawerLayout.setDrawerListener(new DrawerListener() {
@@ -401,12 +416,14 @@ public class ShowRecipe extends FragmentActivity {
 	    convertbtn = (Button)findViewById(R.id.convertbtn);
 	}
 	void hideTimer(){
+		isTimerShow = false;
 		timeinput.setVisibility(View.INVISIBLE);
 		timerbtn.setVisibility(View.INVISIBLE);
 		timevalue.setVisibility(View.INVISIBLE);
 		drawertimertext.setVisibility(View.INVISIBLE);
 	}
 	void hideConv(){
+		isConvShow = false;
 		drawertext.setVisibility(View.INVISIBLE);
 		convlist.setVisibility(View.INVISIBLE);
 		origvalue.setVisibility(View.INVISIBLE);
@@ -414,12 +431,14 @@ public class ShowRecipe extends FragmentActivity {
 		convertbtn.setVisibility(View.INVISIBLE);
 	}
 	void showTimer(){
+		isTimerShow = true;
 		timeinput.setVisibility(View.VISIBLE);
 		timerbtn.setVisibility(View.VISIBLE);
 		timevalue.setVisibility(View.VISIBLE);
 		drawertimertext.setVisibility(View.VISIBLE);
 	}
 	void showConv(){
+		isConvShow = true;
 		drawertext.setVisibility(View.VISIBLE);
 		convlist.setVisibility(View.VISIBLE);
 		origvalue.setVisibility(View.VISIBLE);
@@ -450,12 +469,6 @@ public class ShowRecipe extends FragmentActivity {
 		}
 	};
 	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		mNotificationManager.cancel(NOTYID);
-	}
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -470,6 +483,7 @@ public class ShowRecipe extends FragmentActivity {
 		String timestring = timemin+":"+timesec;
 		timeinput.setText(timestring);
 	}
+	
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
