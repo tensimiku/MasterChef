@@ -22,7 +22,7 @@ public class ShowList extends FragmentActivity implements ActionBar.TabListener 
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     private String[] tabs = {"상","중","하"};
-	private static Vector<Fragment> fragvector;
+	private Vector<Fragment> fragvector;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
