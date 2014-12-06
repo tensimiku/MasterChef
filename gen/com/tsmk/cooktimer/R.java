@@ -1102,9 +1102,10 @@ containing a value of this type.
         public static final int ic_action_search=0x7f020059;
         public static final int ic_action_time=0x7f02005a;
         public static final int ic_launcher=0x7f02005b;
-        public static final int splash=0x7f02005c;
-        public static final int tab_pressed_selected=0x7f02005d;
-        public static final int tab_selected=0x7f02005e;
+        public static final int noimg=0x7f02005c;
+        public static final int splash=0x7f02005d;
+        public static final int tab_pressed_selected=0x7f02005e;
+        public static final int tab_selected=0x7f02005f;
     }
     public static final class id {
         public static final int FragmentScrollView=0x7f060050;

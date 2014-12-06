@@ -164,7 +164,7 @@ public final class RecipeLoader
 			ArrayList<Recipe> recipeArrList = new ArrayList<Recipe>();
 			
 			for(int i=0; i<recipeArray.length; i++){
-				if(recipeArray[i].getRecipeName().contains(searchName) || recipeArray[i].getPage(0).getText().contains(searchName))
+				if(recipeArray[i].getRecipeName().contains(searchName))
 					recipeArrList.add(recipeArray[i]);
 			}
 			

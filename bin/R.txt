@@ -257,9 +257,10 @@ int drawable ic_action_repeat 0x7f020058
 int drawable ic_action_search 0x7f020059
 int drawable ic_action_time 0x7f02005a
 int drawable ic_launcher 0x7f02005b
-int drawable splash 0x7f02005c
-int drawable tab_pressed_selected 0x7f02005d
-int drawable tab_selected 0x7f02005e
+int drawable noimg 0x7f02005c
+int drawable splash 0x7f02005d
+int drawable tab_pressed_selected 0x7f02005e
+int drawable tab_selected 0x7f02005f
 int id FragmentScrollView 0x7f060050
 int id RelativeLayout1 0x7f06004c
 int id action_bar 0x7f06001c

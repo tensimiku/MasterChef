@@ -1,10 +1,14 @@
 package com.tsmk.cooktimer;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import cookmanager.recipe.Recipe;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +54,18 @@ public class CstmAdapter extends ArrayAdapter<Recipe> {
         }
 
         Recipe recipeshow = data.get(position);
+        try{
+        	String path = recipeshow.getPage(0).getPictureAddress();
+			InputStream myInput = context.getAssets().open(path);
+			Bitmap bmp = BitmapFactory.decodeStream(myInput);
+			holder.imgView1.setImageBitmap(bmp);
+        } catch(IndexOutOfBoundsException e){
+        	
+        } catch(NullPointerException e){
+        	
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
     	holder.textView1.setText(recipeshow.getRecipeName());
     	holder.textView2.setText("총 단계:"+Integer.toString(recipeshow.getPageArray().length));
     	switch(recipeshow.getCategory()){
