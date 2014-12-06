@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import cookmanager.io.RecipeSaver;
 import cookmanager.recipe.Page;
@@ -24,7 +25,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getActionBar().hide();
 		int totalid=1;
+
     	RecipeSaver  rs = new RecipeSaver(this);
     	/*
     	Recipe recipe;
@@ -94,11 +97,18 @@ public class MainActivity extends Activity {
 		}
 
 		*/
-    	
-    	
-		Intent i = new Intent(this,ShowList.class);
-		startActivity(i);
-		finish();
+    	new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(getApplicationContext(),ShowList.class);
+				startActivity(i);
+				finish();
+			}
+		}, 1000);
+
+
 	}
 	//dbcopycode
 
