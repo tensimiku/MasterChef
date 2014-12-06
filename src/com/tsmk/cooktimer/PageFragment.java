@@ -1,9 +1,11 @@
 package com.tsmk.cooktimer;
 
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,11 +28,20 @@ public class PageFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.page_layout, container, false);
 		ImageView iv= (ImageView)rootView.findViewById(R.id.recipeimage);
 		TextView tv = (TextView)rootView.findViewById(R.id.recipetext);
-		Uri path = Uri.parse(page.getPictureAddress());
-		File fp = new File(path.toString());
-		if(fp.exists()){
-			iv.setImageURI(path);
+		String path = page.getPictureAddress();
+		
+		if(path!=null){
+	        try {
+				InputStream myInput = getActivity().getAssets().open(path);
+				Bitmap bmp = BitmapFactory.decodeStream(myInput);
+				iv.setImageBitmap(bmp);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+
+
 		if(page.getText()!=null){
 			tv.setText(page.getText());
 		}

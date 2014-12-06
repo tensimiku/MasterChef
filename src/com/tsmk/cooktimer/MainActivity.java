@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import cookmanager.io.RecipeSaver;
 import cookmanager.recipe.Page;
 import cookmanager.recipe.Recipe;
@@ -25,6 +26,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		int totalid=1;
     	RecipeSaver  rs = new RecipeSaver(this);
+    	/*
     	Recipe recipe;
     	ArrayList<Page> pList = new ArrayList<Page>();
     	pList.add(new Page("pict0_1", "text0_1", 40));
@@ -54,6 +56,14 @@ public class MainActivity extends Activity {
     	recipe = new Recipe("feelsolow"+i, pageList, RecipeCategory.LOW,totalid++);
     	rs.saveRecipe(recipe);
     	}
+		*/
+    	try {
+			copyDataBase("PageReader.db");
+			Log.v("copyDB", "dbCopyed");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	//Write TestCode
     	/*
 		try {
@@ -83,11 +93,35 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 
-
-    	*/
+		*/
+    	
     	
 		Intent i = new Intent(this,ShowList.class);
 		startActivity(i);
 		finish();
 	}
+	//dbcopycode
+
+    private void copyDataBase(String dbname) throws IOException {
+        // Open your local db as the input stream
+        InputStream myInput = getApplicationContext().getAssets().open(dbname);
+        // Path to the just created empty db
+        String outFileName = getDatabasePath(dbname).getPath();
+        // Open the empty db as the output stream
+        OutputStream myOutput = new FileOutputStream(outFileName);
+        // transfer bytes from the inputfile to the outputfile
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = myInput.read(buffer)) > 0) {
+            myOutput.write(buffer, 0, length);
+        }
+        // Close the streams
+        myOutput.flush();
+        myOutput.close();
+        myInput.close();
+    }
+	
+	
+
+	
 }

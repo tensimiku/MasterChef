@@ -53,6 +53,11 @@
             android:parentActivityName=".ShowList" >
             
         </activity>        
+        <activity 
+            android:name=".NotiActivity"
+            android:label="@string/app_name"  >
+            
+        </activity>     
         
     </application>
 

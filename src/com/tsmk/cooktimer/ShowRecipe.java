@@ -11,10 +11,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
@@ -80,6 +84,8 @@ public class ShowRecipe extends FragmentActivity {
     private NotificationCompat.Builder mBuilder;
     private NotificationManager mNotificationManager;
     
+    public static Ringtone r;
+    public static Vibrator vb;
     
     
     private class TimerAsync extends AsyncTask<Calendar, Integer, Void>{
@@ -154,6 +160,8 @@ public class ShowRecipe extends FragmentActivity {
     		isTimerRun = false;
     		mBuilder.setProgress(0, 0, false).setContentText("끝");
     		mBuilder.setOngoing(false);
+    		r.play();
+    		vb.vibrate(1000);
     		mNotificationManager.notify(NOTYID, mBuilder.build());
 			timerbtn.setText(R.string.start);
     		actionbar.setDisplayHomeAsUpEnabled(true);
@@ -166,7 +174,7 @@ public class ShowRecipe extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cook_act);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        final int smoothscrollbarval = 100;
+        final int smoothscrollbarval = 40;
 		Bundle selrecipe = getIntent().getExtras();
 		int sel = selrecipe.getInt("selected");
 		int currentpage = selrecipe.getInt("currentpage");
@@ -204,11 +212,10 @@ public class ShowRecipe extends FragmentActivity {
 		        .setContentText("타이머 돌아가는 중")
 		        .setAutoCancel(true);
 		// Creates an explicit intent for an Activity in your app
+		createAlarm();
 		
-		
-		Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-		resultIntent.setAction(Intent.ACTION_MAIN);
-		resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		Intent resultIntent = new Intent(getApplicationContext(), NotiActivity.class);
+
 		
 		
 		//Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
@@ -237,24 +244,24 @@ public class ShowRecipe extends FragmentActivity {
 
 		
 		seekrecipe.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			int maxOffset;
-			int currentOffset;
+			//int maxOffset;
+			//int currentOffset;
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
 				isSeekbarControlled = false;
-				rPager.endFakeDrag();
-				seekrecipe.setProgress(rPager.getCurrentItem()*smoothscrollbarval);
-				currentOffset=0;
+				//rPager.endFakeDrag();
+				//seekrecipe.setProgress(rPager.getCurrentItem()*smoothscrollbarval);
+				//currentOffset=0;
 			}
 			
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
 				isSeekbarControlled = true;
-				maxOffset = rPager.getWidth();
-				rPager.beginFakeDrag();
+				//maxOffset = rPager.getWidth();
+				//rPager.beginFakeDrag();
 			}
 			
 			@Override
@@ -262,15 +269,14 @@ public class ShowRecipe extends FragmentActivity {
 					boolean fromUser) {
 				// TODO Auto-generated method stub
 				if(fromUser){
-					int offset = (int)((maxOffset/smoothscrollbarval)*(progress%smoothscrollbarval));
-					int dragby = -1 * (offset - currentOffset);
-					rPager.fakeDragBy(dragby);
-					currentOffset=offset;
-					if(dragby<0){
-						rPager.setCurrentItem(progress/smoothscrollbarval,false);
-					} else{
-						rPager.setCurrentItem((progress+smoothscrollbarval-1)/smoothscrollbarval,false);
-					}
+					//int offset = (int)((maxOffset/smoothscrollbarval)*(progress%smoothscrollbarval));
+					//int dragby = -1 * (offset - currentOffset);
+					//rPager.fakeDragBy(dragby);
+					//currentOffset=offset;
+					//if(dragby<0){
+						rPager.setCurrentItem((progress+(smoothscrollbarval/2))/smoothscrollbarval);
+					//} else{
+					//}
 				}
 			}
 		});
@@ -397,6 +403,16 @@ public class ShowRecipe extends FragmentActivity {
         //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 	
+	void createAlarm(){
+		if(r==null){
+			Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+			r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+		}
+		if(vb==null){
+			vb = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		}
+	}
+	
 	void checkonCreate(){
 		if(isConvShow){
 			showConv();
@@ -458,6 +474,9 @@ public class ShowRecipe extends FragmentActivity {
 	
 	@Override
 	public void onBackPressed() {
+		if(r.isPlaying()){
+			r.stop();
+		}
 		if(mDrawerLayout.isDrawerOpen(mDrawerRelative)){
 			mDrawerLayout.closeDrawer(mDrawerRelative);
 		} else{
